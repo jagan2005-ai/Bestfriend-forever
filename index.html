@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Amazing Best Friend ✨</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0d2e 0%, #2d1b3d 25%, #3d2352 50%, #2d1b3d 75%, #1a0d2e 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            overflow-x: hidden;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #ff6b9d);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255, 107, 157, 0.3);
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #e8b4cb;
+            opacity: 0.9;
+        }
+
+        .carousel-container {
+            position: relative;
+            height: 250px;      /* Decreased height */
+            max-width: 350px;   /* Decreased width */
+            margin: 2rem auto;  /* Center horizontally */
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .carousel {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .photo-slide {
+            min-width: 100%;
+            height: 80%; /* Changed from 100% to 80% */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: none; /* Remove background */
+            border: none;     /* Remove border */
+            font-size: 1.2rem;
+            color: #e8b4cb;
+            position: relative;
+        }
+
+        .photo-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 107, 157, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #ff6b9d;
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 107, 157, 0.6);
+        }
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .magic-button {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(196, 69, 105, 0.2));
+            border: 2px solid rgba(255, 107, 157, 0.4);
+            border-radius: 25px;
+            padding: 1.5rem 2rem;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .magic-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .magic-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 157, 0.3);
+            border-color: #ff6b9d;
+        }
+
+        .magic-button:hover::before {
+            left: 100%;
+        }
+
+        .magic-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart-particle {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .finale-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26, 13, 46, 0.95), rgba(61, 35, 82, 0.95));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .finale-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .finale-content {
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .finale-overlay.active .finale-content {
+            transform: scale(1);
+        }
+
+        .finale-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            background: linear-gradient(45deg, #ff6b9d, #f8b500, #ff6b9d);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 2s ease-in-out infinite;
+            margin-bottom: 2rem;
+        }
+
+        .finale-message {
+            font-size: 1.5rem;
+            color: #e8b4cb;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        .close-button {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 3rem;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+        }
+
+        .close-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4);
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b9d;
+            opacity: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .carousel-container {
+                height: 300px;
+                margin: 2rem 0;
+            }
+            
+            .buttons-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 2rem 0;
+            }
+            
+            .magic-button {
+                padding: 1.2rem 1.5rem;
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #f8b500;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles-container" id="particles"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="title">For My Beautiful Best Friend ✨</h1>
+            <p class="subtitle">A little something special just for you Nepali💕</p>
+        </header>
+
+        <div class="carousel-container">
+            <div class="carousel" id="carousel">
+                <div class="photo-slide">
+                    <img src="pic-4.jpg" alt="Beautiful memories together" style="max-height: 80%; max-width: 100%; border-radius: 12px;">
+                    <br><small>Saree + you = magic 💫</small>
+                </div>
+                <div class="photo-slide">
+                    <img src="pic-2.jpg" alt="Our amazing adventures" style="max-height: 80%; max-width: 100%; border-radius: 12px;">
+                    <br><small>Glow queen 🌟 Pooja Ji</small>
+                </div>
+                <div class="photo-slide">
+                    <img src="pic-5.jpg" alt="Laughing until we cry" style="max-height: 80%; max-width: 100%; border-radius: 12px;">
+                    <br><small>Classic beauty 💖</small>
+                </div>
+                <div class="photo-slide">
+                    <img src="pic-3.jpg" alt="Being absolutely silly" style="max-height: 80%; max-width: 100%; border-radius: 12px;">
+                    <br><small>Being absolutely silly</small>
+                </div>
+                <div class="photo-slide">
+                    <img src="pic-1.jpg" alt="Being absolutely silly" style="max-height: 80%; max-width: 100%; border-radius: 12px;">
+                    <br><small>Forever friendship</small>
+                </div>
+            </div>
+            <div class="carousel-nav" id="carouselNav">
+                <div class="nav-dot active" data-slide="0"></div>
+                <div class="nav-dot" data-slide="1"></div>
+                <div class="nav-dot" data-slide="2"></div>
+                <div class="nav-dot" data-slide="3"></div>
+                <div class="nav-dot" data-slide="4"></div>
+            </div>
+        </div>
+
+        <div class="buttons-container">
+            <button class="magic-button" data-action="memories" id="memoriesBtn">
+                💭 Memories
+            </button>
+            <button class="magic-button" data-action="surprise">
+                🎁 Surprise
+            </button>
+            <button class="magic-button" data-action="notes">
+                💌 Notes
+            </button>
+        </div>
+    </div>
+
+    <div class="finale-overlay" id="finaleOverlay">
+        <div class="finale-content">
+            <h2 class="finale-title">You're Amazing! 💖</h2>
+            <p class="finale-message">
+                Thank you for being the most incredible best friend anyone could ask for. 
+                Your friendship means the world to me! 🌟
+            </p>
+            <button class="close-button" onclick="closeFinale()">Close ✨</button>
+        </div>
+    </div>
+
+    <!-- Add this modal for the memory image and quote -->
+    <div id="memoryModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(26,13,46,0.95); z-index:2000; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="background:rgba(255,255,255,0.08); border-radius:20px; padding:2rem; text-align:center; box-shadow:0 10px 40px rgba(255,107,157,0.2);">
+            <img src="pic-6.png" alt="Memory" style="max-width:300px; max-height:300px; border-radius:16px; box-shadow:0 4px 24px rgba(255,107,157,0.2);">
+            <p style="margin-top:1.5rem; color:#ff6b9d; font-size:1.1rem; font-style:italic;">
+                "True friendship is when two souls become one, sharing laughter, tears, and endless memories together."
+            </p>
+            <button onclick="document.getElementById('memoryModal').style.display='none'" style="margin-top:1rem; background:#ff6b9d; color:white; border:none; border-radius:12px; padding:0.7rem 2rem; font-size:1rem; cursor:pointer;">Close</button>
+        </div>
+    </div>
+
+    <!-- Add this modal for the notes message -->
+    <div id="notesModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(26,13,46,0.95); z-index:2000; align-items:center; justify-content:center; flex-direction:column;">
+        <div style="background:rgba(255,255,255,0.08); border-radius:20px; padding:2rem; text-align:center; box-shadow:0 10px 40px rgba(255,107,157,0.2); max-width:350px;">
+            <h2 style="color:#ff6b9d; margin-bottom:1rem;">💌 Special Note</h2>
+            <p style="color:#e8b4cb; font-size:1.15rem;">
+                You are the most special person in my life. Your kindness, laughter, and support make every day brighter. Thank you for being my best friend, my confidant, and my inspiration. I am so grateful for you!
+            </p>
+            <button onclick="document.getElementById('notesModal').style.display='none'" style="margin-top:1.5rem; background:#ff6b9d; color:white; border:none; border-radius:12px; padding:0.7rem 2rem; font-size:1rem; cursor:pointer;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize GSAP timeline
+        const tl = gsap.timeline();
+
+        // Animate page load
+        gsap.set(['.header', '.buttons-container'], { opacity: 0, y: 50 });
+        
+        tl.to('.header', { opacity: 1, y: 0, duration: 1, ease: 'power2.out' })
+          .to('.buttons-container', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5');
+
+        // Carousel functionality
+        let currentSlide = 0;
+        const carousel = document.getElementById('carousel');
+        const dots = document.querySelectorAll('.nav-dot');
+        const totalSlides = 5;
+
+        function updateCarousel() {
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Auto-advance carousel
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }, 4000);
+
+        // Manual navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                updateCarousel();
+            });
+        });
+
+        // Button interactions
+        document.querySelectorAll('.magic-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.dataset.action;
+                
+                // Bounce animation
+                gsap.to(this, {
+                    scale: 0.95,
+                    duration: 0.1,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: 'power2.inOut'
+                });
+
+                // Create heart burst
+                createHeartBurst(this);
+
+                // Handle different actions
+                setTimeout(() => {
+                    if (action === 'surprise') {
+                        showFinale();
+                    } else {
+                        showActionFeedback(action);
+                    }
+                }, 300);
+            });
+        });
+
+        // Floating heart particles
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = Math.random() > 0.5 ? '💖' : '✨';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.bottom = '-50px';
+            
+            document.getElementById('particles').appendChild(heart);
+
+            gsap.to(heart, {
+                y: -window.innerHeight - 100,
+                x: (Math.random() - 0.5) * 200,
+                rotation: Math.random() * 360,
+                opacity: 1,
+                duration: Math.random() * 3 + 4,
+                ease: 'power1.out',
+                onComplete: () => heart.remove()
+            });
+
+            // Add sparkle effect
+            gsap.to(heart, {
+                scale: Math.random() * 0.5 + 0.8,
+                duration: 0.5,
+                yoyo: true,
+                repeat: -1,
+                ease: 'power2.inOut'
+            });
+        }
+
+        // Create heart burst on button click
+        function createHeartBurst(button) {
+            const rect = button.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerHTML = '💕';
+                heart.style.position = 'fixed';
+                heart.style.left = centerX + 'px';
+                heart.style.top = centerY + 'px';
+                heart.style.zIndex = '999';
+                
+                document.body.appendChild(heart);
+
+                const angle = (i / 8) * Math.PI * 2;
+                const distance = 100;
+
+                gsap.to(heart, {
+                    x: Math.cos(angle) * distance,
+                    y: Math.sin(angle) * distance,
+                    opacity: 1,
+                    scale: 1.5,
+                    duration: 0.6,
+                    ease: 'power2.out'
+                });
+
+                gsap.to(heart, {
+                    opacity: 0,
+                    y: '-=50',
+                    duration: 0.8,
+                    delay: 0.6,
+                    ease: 'power2.in',
+                    onComplete: () => heart.remove()
+                });
+            }
+        }
+
+        // Show action feedback
+        function showActionFeedback(action) {
+            const messages = {
+                memories: "💭 Opening our beautiful memories...",
+                playlist: "🎵 Playing our favorite songs...",
+                notes: "💌 Reading heartfelt messages..."
+            };
+
+            const feedback = document.createElement('div');
+            feedback.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(255, 107, 157, 0.9);
+                color: white;
+                padding: 2rem 3rem;
+                border-radius: 20px;
+                font-size: 1.2rem;
+                z-index: 1000;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            `;
+            feedback.textContent = messages[action];
+            document.body.appendChild(feedback);
+
+            gsap.fromTo(feedback, 
+                { scale: 0, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' }
+            );
+
+            setTimeout(() => {
+                gsap.to(feedback, {
+                    scale: 0,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'power2.in',
+                    onComplete: () => feedback.remove()
+                });
+            }, 2000);
+        }
+
+        // Show finale
+        function showFinale() {
+            const overlay = document.getElementById('finaleOverlay');
+            overlay.classList.add('active');
+
+            // Create confetti
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => createConfetti(), i * 100);
+            }
+
+            // Create massive heart explosion
+            setTimeout(() => {
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => createFloatingHeart(), i * 200);
+                }
+            }, 500);
+        }
+
+        // Create confetti
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.background = ['#ff6b9d', '#f8b500', '#c44569', '#e8b4cb'][Math.floor(Math.random() * 4)];
+            
+            document.getElementById('finaleOverlay').appendChild(confetti);
+
+            gsap.to(confetti, {
+                y: window.innerHeight + 100,
+                x: (Math.random() - 0.5) * 300,
+                rotation: Math.random() * 720,
+                opacity: 1,
+                duration: Math.random() * 2 + 3,
+                ease: 'power1.out',
+                onComplete: () => confetti.remove()
+            });
+        }
+
+        // Close finale
+        function closeFinale() {
+            const overlay = document.getElementById('finaleOverlay');
+            overlay.classList.remove('active');
+        }
+
+        // Continuous floating hearts
+        setInterval(createFloatingHeart, 2000);
+
+        // Add sparkles on mouse move
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.95) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.position = 'fixed';
+                sparkle.style.zIndex = '999';
+                
+                document.body.appendChild(sparkle);
+
+                gsap.to(sparkle, {
+                    opacity: 1,
+                    scale: 2,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+
+                gsap.to(sparkle, {
+                    opacity: 0,
+                    y: -30,
+                    duration: 0.8,
+                    delay: 0.3,
+                    ease: 'power2.in',
+                    onComplete: () => sparkle.remove()
+                });
+            }
+        });
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeFinale();
+            }
+        });
+
+        document.getElementById('memoriesBtn').addEventListener('click', function() {
+            document.getElementById('memoryModal').style.display = 'flex';
+        });
+
+        document.querySelector('.magic-button[data-action="notes"]').addEventListener('click', function() {
+            document.getElementById('notesModal').style.display = 'flex';
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9805682880e17eeb',t:'MTc1ODA3ODU4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
